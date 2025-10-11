@@ -15,6 +15,6 @@ payload:
   - DOMAIN,feiyangblog.eu.org
   - DOMAIN,in.chibaba.ggff.net
   - DOMAIN,blog.bestip.one
-  - DOMAIN,testingcf.jsdelivr.net
+  - DOMAIN-KEYWORD,jsdelivr
   - DOMAIN-SUFFIX,nodeseek.com
 
