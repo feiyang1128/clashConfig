@@ -6,6 +6,11 @@
 payload:
   - DOMAIN-SUFFIX,linux.do
   - DOMAIN-SUFFIX,pages.dev
+  - DOMAIN-SUFFIX,xiaoqikeji.com
+  - DOMAIN-SUFFIX,duckyci.com
+  - DOMAIN-SUFFIX,wufei.eu.org
+  - DOMAIN-SUFFIX,feiyang.gq
   - DOMAIN-KEYWORD,cloudflare
   - DOMAIN,dh.feiyangyyds.eu.org
   - DOMAIN,feiyangblog.eu.org
+
