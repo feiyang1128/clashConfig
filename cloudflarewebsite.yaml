@@ -17,4 +17,5 @@ payload:
   - DOMAIN,blog.bestip.one
   - DOMAIN-KEYWORD,jsdelivr
   - DOMAIN-SUFFIX,nodeseek.com
+  - DOMAIN-SUFFIX,uniapp-nutui.tech
 
