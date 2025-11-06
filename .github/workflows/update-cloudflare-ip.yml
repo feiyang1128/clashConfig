@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2  # 检出仓库代码
 
-    - name: Update Cloudflare IP ranges
+    - name: Update CloudflareIP
       run: |
         OUTPUT_FILE="./cloudflareip.txt"
 
