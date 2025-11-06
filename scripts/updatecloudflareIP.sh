@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT_FILE="cloudflareip.txt"  # 修改为相对路径，保存到仓库根目录
+OUTPUT_FILE="../cloudflareip.txt"  # 修改为相对路径，保存到仓库根目录
 
 # 下载 Cloudflare 的 IPv4 和 IPv6 IP 段
 IPv4_URL="https://www.cloudflare.com/ips-v4"
