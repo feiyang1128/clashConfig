@@ -1,8 +1,8 @@
-name: Update Cloudflare IPs
+name: Update Cloudflare IP ranges
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # 每天 00:00 UTC 执行一次脚本（相当于北京时间 08:00）
+    - cron: '0 0 * * *'  # 每天 00:00 UTC 执行一次脚本
   workflow_dispatch:  # 允许手动触发工作流
 
 jobs:
@@ -11,18 +11,37 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3  # 克隆仓库
+      uses: actions/checkout@v2  # 检出仓库代码
 
-    - name: Give executable permission to the script
-      run: chmod +x ./scripts/updatecloudflareIP.sh  # 给脚本添加可执行权限
-
-    - name: Update Cloudflare IPs
-      run: ./scripts/updatecloudflareIP.sh  # 执行脚本
-
-    - name: Commit and push updated IP file
+    - name: Update Cloudflare IP ranges
       run: |
-        git config --global user.name "feiyang"  # 配置 git 用户名
-        git config --global user.email "feiyang991128@gmail.com"  # 配置 git 邮箱
-        git add cloudflareip.txt  # 将修改的文件添加到暂存区
-        git commit -m "Update Cloudflare IP ranges" || echo "No changes to commit"  # 提交修改，若没有更改则跳过
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}  # 使用 GITHUB_TOKEN 进行认证推送
+        OUTPUT_FILE="./cloudflareip.txt"
+
+        IPv4_URL="https://www.cloudflare.com/ips-v4"
+        IPv6_URL="https://www.cloudflare.com/ips-v6"
+
+        > $OUTPUT_FILE
+
+        echo "payload:" >> $OUTPUT_FILE
+
+        # 处理 IPv4 IP 段
+        echo "Fetching and processing Cloudflare IPv4 IP ranges..."
+        curl -s "$IPv4_URL" | grep -oP '(\d+\.\d+\.\d+\.\d+/\d+)' | while IFS= read -r ip; do
+          echo "  - '$ip'" >> $OUTPUT_FILE
+        done
+
+        # 处理 IPv6 IP 段
+        echo "Fetching and processing Cloudflare IPv6 IP ranges..."
+        curl -s "$IPv6_URL" | grep -oP '([a-f0-9:]+/\d+)' | while IFS= read -r ip; do
+          echo "  - '$ip'" >> $OUTPUT_FILE
+        done
+
+        # 输出文件内容以调试
+        cat $OUTPUT_FILE
+
+        # 提交更改
+        git config --global user.name "feiyang"
+        git config --global user.email "feiyang991128@gmail.com"
+        git add $OUTPUT_FILE
+        git commit -m "Update Cloudflare IP ranges"
+        git push origin main  # 确保使用正确的分支名
