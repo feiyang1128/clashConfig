@@ -20,8 +20,13 @@ jobs:
         IPv4_URL="https://www.cloudflare.com/ips-v4"
         IPv6_URL="https://www.cloudflare.com/ips-v6"
 
+        # 获取当前北京时间
+        BEIJING_TIME=$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')
+
+        # 清空输出文件，准备写入
         > $OUTPUT_FILE
 
+        # 开始写入规则的开头部分
         echo "payload:" >> $OUTPUT_FILE
 
         # 处理 IPv4 IP 段
@@ -36,12 +41,17 @@ jobs:
           echo "  - '$ip'" >> $OUTPUT_FILE
         done
 
+        # 添加更新时间注释
+        echo "# Last updated: $BEIJING_TIME" >> $OUTPUT_FILE
+
         # 输出文件内容以调试
         cat $OUTPUT_FILE
 
-        # 提交更改
-        git config --global user.name "feiyang"
-        git config --global user.email "feiyang991128@gmail.com"
-        git add $OUTPUT_FILE
-        git commit -m "Update Cloudflare IP ranges"
-        git push origin main  # 确保使用正确的分支名
+        # 检查文件是否有更改
+        git diff --quiet $OUTPUT_FILE || (
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add $OUTPUT_FILE
+          git commit -m "Update Cloudflare IP ranges"
+          git push origin main  # 确保使用正确的分支名
+        )
