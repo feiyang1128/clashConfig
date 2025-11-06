@@ -35,3 +35,5 @@ done
 
 # 输出完成信息
 echo "Cloudflare IP ranges have been saved to $OUTPUT_FILE"
+# 调试：检查文件是否成功生成
+ls -l $OUTPUT_FILE  # 列出文件是否生成
