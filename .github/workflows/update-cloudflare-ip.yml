@@ -1,4 +1,4 @@
-name: Update Cloudflare IP ranges
+name: Update Cloudflare IP
 
 on:
   schedule:
